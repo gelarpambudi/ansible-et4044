@@ -1,0 +1,12 @@
+- name: Install NGINX
+  apt:
+    name: nginx
+    state: "{{ nginx_version }}"
+
+- name: Check if NGINX Service is running
+  systemd:
+    name: "{{ systemd_name }}"
+    enabled: true
+    daemon_reload: yes
+    state: started
+    masked: no

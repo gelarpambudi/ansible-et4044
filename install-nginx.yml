@@ -1,0 +1,8 @@
+---
+- name: Installing NGINX
+  hosts: nginx-lb
+  become: true
+  gather_facts: true
+  
+  roles:
+    - install_nginx
