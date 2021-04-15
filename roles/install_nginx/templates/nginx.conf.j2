@@ -53,11 +53,11 @@ http {
                 root    html;
             }
 
-            location /app-abc{
+            location = /app-abc{
                 proxy_pass http://app-abc;
             }
 
-            location /app-xyz{
+            location = /app-xyz{
                 proxy_pass http://app-xyz;
             }
     }
