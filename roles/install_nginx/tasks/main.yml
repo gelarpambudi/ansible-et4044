@@ -22,18 +22,17 @@
     group: "{{ os_group }}"
     mode: 0644
     backup: yes
+  register: service_config
 
 - name: Create NGINX access log file 
   file:
     path: "{{ nginx_log_home }}/{{ access_log_file }}.log"
     state: touch
-  when: need_access_log
 
 - name: Create NGINX error log file 
   file:
     path: "{{ nginx_log_home }}/{{ error_log_file }}.log"
     state: touch
-  when: need_error_log
 
 - name: Create NGINX logrotate config
   template:
@@ -50,11 +49,20 @@
     dest: "{{ nginx_www_home }}/index.html"
     src: "templates/index.html.j2"
     force: yes
+    mode: 0644
 
-- name: Check if NGINX Service is running
+- name: Restart NGINX service configuration
   systemd:
     name: "{{ systemd_name }}"
-    enabled: true
+    enabled: yes
+    daemon_reaload: yes
+    state: restarted
+  when: service_config.changed
+
+- name: Check if NGINX service running
+  systemd:
+    name: "{{ systemd_name }}"
+    enabled: yes
     daemon_reload: yes
     state: started
     masked: no

@@ -7,8 +7,6 @@
   vars:
     - os_user: root
     - os_group: root
-    - need_access_log: true
-    - need_error_log: true
     - access_log_file: nginx.access
     - error_log_file: nginx.error
     - systemd_name: nginx
