@@ -1,0 +1,12 @@
+{{ nginx_log_home }}/*.log {
+    create 0644 {{ os_user }} {{ os_group }}
+    daily
+    rotate 10
+    missingok
+    notifempty
+    compress
+    sharedscripts
+    postrotate
+    /bin/kill -USR1 'cat {{ nginx_pid_file }} 2>/dev/null' 2>/dev/null || true
+    endscript
+}

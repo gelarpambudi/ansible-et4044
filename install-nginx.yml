@@ -4,5 +4,10 @@
   become: true
   gather_facts: true
   
+  vars:
+    - os_user: root
+    - os_group: root
+    - need_access_log: true
+    - need_error_log: true
   roles:
     - install_nginx

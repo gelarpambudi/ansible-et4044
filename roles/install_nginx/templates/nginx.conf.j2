@@ -1,0 +1,64 @@
+user                {{ os_user }};
+pid                 {{ nginx_pid_file }};
+worker_processes    {{ ansible_processor_vcpus|default(ansible_processor_count) }};
+error_log           {{ nginx_log_home }}/error.log;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    include             {{ nginx_home }}/mime.types;
+    default_type        application/octet-stream;
+    log_format          main    '$remote_addr - $remote_user [$time_local]  "$request"'
+                                '$status $body_bytes_sent "$http_referer" '
+                                '"$http_user_agent" "$http_x_forwarded_for"';
+    access_log          {{ nginx_log_home }}/access.log main;
+    sendfile            on;
+    tcp_nopush          on;
+    tcp_nodelay         on;
+    keepalive_timeout   65;
+    types_hash_max_size 2048;
+    include {{ nginx_configuration_home }}/*.conf;
+
+    upstream app-abc{
+        ip_hash;
+        server 10.0.10.4;
+        server 10.0.10.5;
+    }
+
+    upstream app-xyz{
+        server 10.0.10.6;
+    }
+
+
+    server {
+            listen      80 default_server;
+            listen      [::]:80 default_server;
+            root        {{ nginx_www_home }};
+            server_name _;
+            access_log {{ nginx_log_home }}/{{ access_log_file }}.log;
+     	    error_log {{ nginx_log_home }}/{{ error_log_file }}.log;
+            location / {
+                root        html;
+                index       index.html index.htm;
+                try_files   $uri $uri/ =404;
+            }
+            error_page  400 /404.html;
+            location = /404.html {
+                root    html;
+            }
+            error_page  500 502 503 504 /50x.html;
+            location = /50x.html {
+                root    html;
+            }
+
+            location /app-abc{
+                proxy_pass http://app-abc;
+            }
+
+            location /app-xyz{
+                proxy_pass http://app-xyz;
+            }
+    }
+}

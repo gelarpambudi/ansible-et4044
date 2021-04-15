@@ -3,7 +3,7 @@ nginx_version: latest
 # This configuration CAN'T be modified
 nginx_home: /etc/nginx
 nginx_configuration_home: "{{ nginx_home }}/conf.d"
-nginx_service_home: /usr/lib/systemd/system
+nginx_service_home: /lib/systemd/system
 nginx_www_home: /usr/share/nginx/html
 nginx_log_home: /var/log/nginx
 nginx_pid_file: /run/nginx.pid

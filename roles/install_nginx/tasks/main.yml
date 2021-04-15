@@ -3,6 +3,54 @@
     name: nginx
     state: "{{ nginx_version }}"
 
+- name: Replace default configuration
+  template:
+    dest: "{{ nginx_home }}/{{ systemd_name }}.conf"
+    src: "templates/{{ systemd_name }}.conf.j2"
+    force: yes
+    owner: "{{ os_user }}"
+    group: "{{ os_group }}"
+    mode: 0644
+    backup: yes
+
+- name: Replace default service configuration
+  template:
+    dest: "{{ nginx_service_home }}/{{ systemd_name }}.service"
+    src: "templates/{{ systemd_name }}.service.j2"
+    force: yes
+    owner: "{{ os_user }}"
+    group: "{{ os_group }}"
+    mode: 0644
+    backup: yes
+
+- name: Create NGINX access log file 
+  file:
+    path: "{{ nginx_log_home }}/{{ access_log_file }}.log"
+    state: touch
+  when: need_access_log
+
+- name: Create NGINX error log file 
+  file:
+    path: "{{ nginx_log_home }}/{{ error_log_file }}.log"
+    state: touch
+  when: need_error_log
+
+- name: Create NGINX logrotate config
+  template:
+    dest: "{{ nginx_logrotate_home }}/{{ systemd_name }}"
+    src: "logrotate.j2"
+    force: yes
+    owner: "{{ os_user }}"
+    group: "{{ os_group }}"
+    mode: 0644
+    backup: yes
+
+- name: Create NGINX main html page
+  template:
+    dest: "{{ nginx_www_home }}/index.html"
+    src: "templates/index.html.j2"
+    force: yes
+
 - name: Check if NGINX Service is running
   systemd:
     name: "{{ systemd_name }}"
