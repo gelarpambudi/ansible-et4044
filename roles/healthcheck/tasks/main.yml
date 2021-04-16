@@ -1,0 +1,40 @@
+- name: Get service status via HTTP
+  uri:
+    url: "{{ health_check_url }}"
+  register: service_status
+  ignore_errors: yes
+
+- name: Execute when service not healthy
+  vars:
+    tele_chat_id: #TODO
+    bot_token: #TODO
+  block:
+    - name: Send telegram message to notify service current status
+      telegram:
+        chat_id: "{{ tele_chat_id }}"
+        msg: "Service *{{ service_name }}* response is *{{ service_status.status }}* in *{{ server_ip }}*"
+        token: "{{ bot_token }}"
+
+    - name: Restart Service
+      become: yes
+      systemd:
+        state: restarted
+        name: "{{ service_name }}"
+      ignore_errors: yes
+      register: restart_result
+      delegate_to: "{{ server_ip }}"
+
+    - name: Send telegram message if restart succeeded
+      telegram:
+        chat_id: "{{ tele_chat_id }}"
+        msg: " *{{ service_name }}* restart succeeded"
+        token: "{{ bot_token }}"
+      when: restart_result is success
+
+    - name: Send telegram message if restart failed
+      telegram:
+        chat_id: "{{ tele_chat_id }}"
+        msg: " *{{ service_name }}* restart failed*"
+        token: "{{ bot_token }}"
+      when: restart_result is failed
+  when: service_status.status != 200

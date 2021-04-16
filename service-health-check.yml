@@ -1,0 +1,21 @@
+- name: Load list of service
+  become: no
+  gather_facts: no
+  hosts: localhost
+  vars:
+    services:
+    - ['xyz-app-1', 10.0.10.4, 'http://10.0.10.4/health']
+    - ['xyz-app-2', 10.0.10.5, 'http://10.0.10.5/health']
+    - ['abc-app-3', 10.0.10.6, 'http://10.0.10.6/health']
+
+  tasks:
+  - name: Start health check for each service
+    vars:
+      service_name: "{{ health_check_item[0] }}"
+      server_ip: "{{ health_check_item[1] }}"
+      health_check_url: "{{ health_check_item[2] }}"
+    include_role:
+      name: healthcheck
+    loop: "{{ services }}"
+    loop_control:
+      loop_var: health_check_item
