@@ -1,0 +1,14 @@
+---
+- name: NGINX service Healthcheck
+  become: no
+  gather_facts: no
+  hosts: localhost
+  vars:
+    service_name: nginx
+    health_check_url: http://10.0.10.3
+    server_ip: 10.0.10.3
+
+  tasks:
+  - name: Start NGINX Health Check
+    include_role:
+      name: healthcheck 

@@ -6,14 +6,12 @@
 
 - name: Execute when service not healthy
   vars:
-    tele_chat_id: #TODO
-    bot_token: #TODO
   block:
     - name: Send telegram message to notify service current status
       telegram:
         chat_id: "{{ tele_chat_id }}"
         msg: "Service *{{ service_name }}* response is *{{ service_status.status }}* in *{{ server_ip }}*"
-        token: "{{ bot_token }}"
+        token: "{{ tele_bot_token }}"
 
     - name: Restart Service
       become: yes
@@ -28,13 +26,13 @@
       telegram:
         chat_id: "{{ tele_chat_id }}"
         msg: " *{{ service_name }}* restart succeeded"
-        token: "{{ bot_token }}"
+        token: "{{ tele_bot_token }}"
       when: restart_result is success
 
     - name: Send telegram message if restart failed
       telegram:
         chat_id: "{{ tele_chat_id }}"
         msg: " *{{ service_name }}* restart failed*"
-        token: "{{ bot_token }}"
+        token: "{{ tele_bot_token }}"
       when: restart_result is failed
   when: service_status.status != 200
