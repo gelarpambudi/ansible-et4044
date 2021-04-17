@@ -25,14 +25,14 @@
     - name: Send telegram message if restart succeeded
       telegram:
         chat_id: "{{ tele_chat_id }}"
-        msg: " *{{ service_name }}* restart succeeded"
+        msg: "*{{ service_name }}* restart succeeded"
         token: "{{ tele_bot_token }}"
       when: restart_result is success
 
     - name: Send telegram message if restart failed
       telegram:
         chat_id: "{{ tele_chat_id }}"
-        msg: " *{{ service_name }}* restart failed*"
+        msg: "*{{ service_name }}* restart failed*"
         token: "{{ tele_bot_token }}"
       when: restart_result is failed
   when: service_status.status != 200

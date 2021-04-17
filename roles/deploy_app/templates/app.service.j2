@@ -1,0 +1,11 @@
+[Unit]
+Description=XYZ web application
+After=network.target
+
+[Service]
+User={{ os_user }}
+Group={{ os_group }}
+ExecStartPre=/usr/bin/python3 {{ app_home }}/server.py
+
+[Install]
+WantedBy=multi-user.target
