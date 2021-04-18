@@ -5,7 +5,7 @@ After=network.target
 [Service]
 User={{ os_user }}
 Group={{ os_group }}
-ExecStartPre=/usr/bin/python3 {{ app_home }}/server.py
+ExecStartPre=/usr/bin/python3 {{ app_home }}/app.py
 
 [Install]
 WantedBy=multi-user.target
