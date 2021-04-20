@@ -7,6 +7,6 @@
     app_home: /opt/abc-app
 
   tasks:
-  - name: Start NGINX Health Check
+  - name: task deploy app abc
     include_role:
       name: deploy_app
