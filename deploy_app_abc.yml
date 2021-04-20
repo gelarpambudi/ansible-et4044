@@ -1,0 +1,6 @@
+ - hosts: abc-app
+ - variabel:
+  - url_repo: pilih antara server1/server2 yg penting beda sm playbook 2
+  - app_name: abc-app
+  - app_home: /opt/abc-app
+ - include role deploy_app
