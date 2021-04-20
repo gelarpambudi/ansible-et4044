@@ -1,3 +1,8 @@
+- name: Check if app home exists
+  stat:
+    path: "{{ app_home }}"
+  register: app_exist
+
 - name: Install python3
   apt:
     name: python3
@@ -12,6 +17,7 @@
   ansible.builtin.git:
     src: '{{url_repo}}'
     dest: '{{ app_home }}'
+  when: app_exist.stat.exists == false
 
 - name: install flask
   pip:
@@ -33,13 +39,12 @@
     name: "{{app_name}}"
     enabled: yes
     daemon_reload: yes
+    masked: no
     state: restarted
   when: service_config.changed
 
 - name: Check if service running
   systemd:
     name: "{{ app_name }}"
-    enabled: yes
-    daemon_reload: yes
     state: started
-    masked: no
+

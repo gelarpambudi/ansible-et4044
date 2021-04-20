@@ -1,11 +1,13 @@
- - name: Deploy App XYZ
+- name: Deploy App XYZ
   hosts: xyz-app
+  become: true
+  gather_facts: true
   vars:
-    url_repo: https://github.com/karisaardelia/server2.git
-    app_name : xyz-app
-    app_home: /opt/xyz-app
+    - url_repo: https://github.com/karisaardelia/server2.git
+    - app_name : xyz-app
+    - app_home: /opt/xyz-app
 
   tasks:
-  - name: task deploy app xyz
-    include_role:
-      name: deploy_app
+    - name: task deploy app xyz
+      include_role:
+        name: deploy_app
