@@ -3,9 +3,9 @@
   become: true
   gather_facts: true
   vars:
-    - url_repo: https://github.com/karisaardelia/server1.git
-    - app_name : abc-app
-    - app_home: /opt/abc-app
+    - url_repo: "https://github.com/karisaardelia/server1.git"
+    - app_name : "abc-app"
+    - app_home: "/opt/abc-app"
 
   tasks:
     - name: task deploy app abc

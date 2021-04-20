@@ -15,7 +15,7 @@
     
 - name: clone repo
   ansible.builtin.git:
-    src: '{{url_repo}}'
+    repo: '{{ url_repo }}'
     dest: '{{ app_home }}'
   when: app_exist.stat.exists == false
 
@@ -36,7 +36,7 @@
     
 - name: Restart service configuration
   systemd:
-    name: "{{app_name}}"
+    name: "{{ app_name }}"
     enabled: yes
     daemon_reload: yes
     masked: no
