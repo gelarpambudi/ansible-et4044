@@ -1,0 +1,11 @@
+ - name: Deploy App XYZ
+  hosts: xyz-app
+  vars:
+    url_repo: https://github.com/karisaardelia/server2.git
+    app_name : xyz-app
+    app_home: /opt/xyz-app
+
+  tasks:
+  - name: task deploy app xyz
+    include_role:
+      name: deploy_app
