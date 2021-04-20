@@ -20,7 +20,7 @@
 - name: create service configuration
   ansible.builtin.template:
     src: templates/app.service.j2
-    dest: {{ service_home }}/{{ app_name }}.service
+    dest: "{{ service_home }}/{{ app_name }}.service"
     force: yes
     group: "{{ os_group }}"
     owner: "{{ os_user }}"
