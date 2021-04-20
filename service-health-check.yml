@@ -4,9 +4,9 @@
   hosts: localhost
   vars:
     services:
-    - ['xyz-app', 10.0.10.4, 'http://10.0.10.4/health']
-    - ['xyz-app', 10.0.10.5, 'http://10.0.10.5/health']
-    - ['abc-app', 10.0.10.6, 'http://10.0.10.6/health']
+    - ['xyz-app', 10.0.10.4, 'http://10.0.10.4/']
+    - ['xyz-app', 10.0.10.5, 'http://10.0.10.5/']
+    - ['abc-app', 10.0.10.6, 'http://10.0.10.6/']
 
   tasks:
   - name: Start health check for each service
