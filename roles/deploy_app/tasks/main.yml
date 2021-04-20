@@ -5,22 +5,22 @@
 
 - name: install pip3
   apt:
-    name: pip3
+    name: python3-pip
     state: present
     
 - name: clone repo
   ansible.builtin.git:
-    src: {{'url_repo'}}
-    dest: C:\Tubes sdn
+    src: '{{url_repo}}'
+    dest: '{{ app_home }}'
 
--name: install flask
+- name: install flask
   pip:
     name: flask
     
-- name: Replace default service configuration
+- name: create service configuration
   ansible.builtin.template:
-    src: ansible-tubes/roles/deploy_app/templates/app.service.j2
-    dest: /lib/systemd/system
+    src: templates/app.service.j2
+    dest: {{ service_home }}/{{ app_name }}.service
     force: yes
     group: "{{ os_group }}"
     owner: "{{ os_user }}"
@@ -30,7 +30,7 @@
     
 - name: Restart service configuration
   systemd:
-    name: "{{ systemd_name }}"
+    name: "{{app_name}}"
     enabled: yes
     daemon_reload: yes
     state: restarted
@@ -38,7 +38,7 @@
 
 - name: Check if service running
   systemd:
-    name: "{{ systemd_name }}"
+    name: "{{ app_name }}"
     enabled: yes
     daemon_reload: yes
     state: started
