@@ -53,11 +53,13 @@ http {
                 root    html;
             }
 
-            location = /app-abc{
+            location = /app-abc/ {
+                rewrite ^/app-abc/(.*) /$1 break;
                 proxy_pass http://app-abc;
             }
 
-            location = /app-xyz{
+            location = /app-xyz/ {
+                rewrite ^/app-xyz/(.*) /$1 break;
                 proxy_pass http://app-xyz;
             }
     }
