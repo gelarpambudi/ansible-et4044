@@ -21,13 +21,13 @@ http {
     types_hash_max_size 2048;
     include {{ nginx_configuration_home }}/*.conf;
 
-    upstream app-abc{
+    upstream app-xyz{
         ip_hash;
         server 10.0.10.4;
         server 10.0.10.5;
     }
 
-    upstream app-xyz{
+    upstream app-abc{
         server 10.0.10.6;
     }
 
