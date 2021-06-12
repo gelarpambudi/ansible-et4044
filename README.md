@@ -16,8 +16,8 @@ Our main objectives are:
     - There are 2 backend services, XYZ Service and ABC Service.
     - Provisioner server acts as Ansible Controller
 * Create service health check using Ansible
-    - The health check if performed to make sure all of the services is always up. It will automatically restart the service when the service is unhealthy/down
-    - If the services is unhealthy/down, Provisioner server will send a notification to Telegram Bot.
+    - The health check is performed to make sure all of the services are always up. It will automatically restart the service when the service is unhealthy/down
+    - If the services is unhealthy/down, provisioner server will send a notification to Telegram Bot.
 
 ### Requirement
 - OS Ubuntu Server 18.04 
