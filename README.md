@@ -20,11 +20,10 @@ Our main objectives are:
     - If the services is unhealthy/down, Provisioner server will send a notification to Telegram Bot.
 
 ### Requirement
-    ```
-    OS Ubuntu Server 18.04 
-    Ansible 
-    Telegram Bot
-    ```
+- OS Ubuntu Server 18.04 
+- Ansible 
+- Telegram Bot
+
 
 
 
